@@ -49,10 +49,12 @@ class LineItemsController < ApplicationController
 
 
     respond_to do |format|
-			#save the line_item created to database, and redirect to show the cart associated with this line item
+			#save the line_item created to database, and redirect to store_url
       if @line_item.save
-        format.html { redirect_to(@line_item.cart, :notice => 'Line item was successfully created.') }
-        format.xml  { render :xml => @line_item, :status => :created, :location => @line_item }
+        format.html { redirect_to(store_url) }
+				#response for our ajax call
+        format.js { @current_item=@line_item }
+				format.xml  { render :xml => @line_item, :status => :created, :location => @line_item }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @line_item.errors, :status => :unprocessable_entity }
